@@ -1,0 +1,43 @@
+# ACL
+#acladd foo,bar
+
+# Color - Use bright colors for bold text.
+attrcolor b “.I”
+
+# Backticks
+backtick 1 60 60 $HOME/.screen.d/bin/get_freemem
+backtick 2 60 60 $HOME/.screen.d/bin/get_freeswap
+backtick 3 60 60 $HOME/.screen.d/bin/get_sessionname
+
+# Caption -
+caption always "%{= KW}%{-b}%-w%{+b gW}[ %n %t ]%{-}%+w"
+
+# Hard Status - Using backticks
+hardstatus alwayslastline "%{= kW} %-= %{= kG}Session:%u%{= kW} %3` | %{= kG}Host:%{= kW} %H | %{= kG} MEM:%{= kW} %1`MB |%{= kG} SW: %{= kW}%2`MB | %d %M %c:%s "
+
+# Change Background color
+defbce on
+
+# Scroll lines
+defscrollback 8500
+
+# Enable multiuser
+multiuser off
+
+# Term[cap|info] settings
+termcapinfo xterm*|xs|rxvt ti@:te@
+
+# Screen lists
+screen 0 emacs -nw
+screen 1 bash
+screen 2 bash 
+screen 3 bash 
+
+# Screen Select
+select 1
+
+# Splash Message
+startup_message off
+
+# Visual Bell
+vbell on
