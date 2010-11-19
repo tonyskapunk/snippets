@@ -5,9 +5,9 @@
 attrcolor b “.I”
 
 # Backticks
-backtick 1 60 60 $HOME/.screen.d/bin/get_freemem
-backtick 2 60 60 $HOME/.screen.d/bin/get_freeswap
-backtick 3 60 60 $HOME/.screen.d/bin/get_sessionname
+backtick 1 60 60 $HOME/.screen.d/bin/getstats -m
+backtick 2 60 60 $HOME/.screen.d/bin/getstats -s
+backtick 3 60 60 $HOME/.screen.d/bin/getstats -S
 
 # Caption -
 caption always "%{= KW}%{-b}%-w%{+b gW}[ %n %t ]%{-}%+w"
