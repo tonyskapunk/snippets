@@ -1,9 +1,6 @@
 # ACL
 #acladd foo,bar
 
-# Color - Use bright colors for bold text.
-attrcolor b “.I”
-
 # Backticks
 backtick 1 60 60 $HOME/.screen.d/bin/getstats.sh -m
 backtick 2 60 60 $HOME/.screen.d/bin/getstats.sh -s
