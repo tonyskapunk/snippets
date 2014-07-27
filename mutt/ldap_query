@@ -1,0 +1,35 @@
+#!/bin/bash
+# LDAP Search for contacts, Mutt friendy
+#
+
+LDAPSERVER="your-server.com"
+LDAPBASEDN="ou=users,dc=your-server,dc=com"
+PROTO="ldap://"
+LIMIT=100
+FLAGS="-LLL -x -s sub -z ${LIMIT}"
+FILTER=$(echo -n '(&(objectclass=inetorgperson)'\
+                 '(|(cn='"$1"'*)'\
+                 '(mail='"$1"'*)'\
+                 '(givenname='"$1"'*)'\
+                 '(displayname='"$1"'*)'\
+                 '(sn='"$1"'*)))'\
+                 |tr -d ' ')
+FIELDS="mail givenname sn telephoneNumber"
+
+echo
+
+# Search/Parse/Print
+ldapsearch $FLAGS \
+    -H ${PROTO}${LDAPSERVER}\
+    -b $LDAPBASEDN\
+    ${FILTER}\
+    ${FIELDS}\
+| awk '
+/^mail:/ {MAIL=substr($0,6)}
+/^givenname:/ {NAME=substr($0,11)}
+/^sn:/ {SURNAME=substr($0,4)}
+/^telephoneNumber:/ {PHONE=substr($0,17)}
+/^$/ { MAIL=gensub("^ *| *$","","g",tolower(MAIL)) }
+/^$/ { if(length(NAME) > 0) print MAIL"\t"NAME SURNAME"\t"PHONE}
+/^$/ { NAME = "" }
+' | sort -u
