@@ -28,7 +28,7 @@ BOOT_TIME = NOW - timedelta(seconds=SECS_SINCE_BOOT)
 print "Booted: %s\n" % BOOT_TIME
 
 for line in DMESG_OUTPUT:
-    matched = re.match(r'^\s*[\s*(\d*\.\d*)].*', line)
+    matched = re.match(r'^\[\s*(\d*\.\d*)\].*', line)
     if matched:
         if len(matched.groups(1)):
             ts_sec = matched.groups(1)[0]
