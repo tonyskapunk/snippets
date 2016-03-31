@@ -10,7 +10,7 @@ except ImportError:
     sys.exit(1)
 
 
-def rminst(packagename="figlet"):
+def rminst(packagename):
     '''A test function to install/remove a package automagically.
     '''
     ac = apt.Cache()
@@ -34,7 +34,10 @@ def rminst(packagename="figlet"):
 
 
 def main():
-    rminst(sys.argv[1])
+    if sys.argv[1]:
+        rminst(sys.argv[1])
+    else
+        rminst("figlet")
 
 if __name__ == "__main__":
     main()
