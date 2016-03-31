@@ -1,10 +1,16 @@
 # ACL
 #acladd foo,bar
 
+# Color - Use bright colors for bold text.
+attrcolor b ?.I?
+
 # Backticks
 backtick 1 60 60 $HOME/.screen.d/bin/getstats.sh -m
 backtick 2 60 60 $HOME/.screen.d/bin/getstats.sh -s
 backtick 3 60 60 $HOME/.screen.d/bin/getstats.sh -S
+
+# Unicode support
+defutf8 on
 
 # Caption -
 caption always "%{= KW}%{-b}%-w%{+b gW}[ %n %t ]%{-}%+w"
@@ -16,19 +22,18 @@ hardstatus alwayslastline "%{= kW} %-= %{= kG}Session:%u%{= kW} %3` | %{= kG}Hos
 defbce on
 
 # Scroll lines
-defscrollback 8500
+defscrollback 18500
 
 # Enable multiuser
 multiuser off
 
 # Term[cap|info] settings
-termcapinfo xterm*|xs|rxvt ti@:te@
+termcapinfo xterm*|xs|*rxvt* ti@:te@
 
 # Screen lists
-screen 0 emacs -nw
-screen 1 bash
-screen 2 bash 
-screen 3 bash 
+screen 0 bash
+screen 1 bash 
+screen 2 bash
 
 # Screen Select
 select 1

@@ -1,0 +1,193 @@
+## Encrypted pass:
+source "gpg2 -dq .mutt/.credfile.gpg|"
+set imap_pass=$my_imap_pass
+set smtp_pass=$my_smtp_pass
+
+## IMAP
+set imap_user = "username"
+bind index "^" imap-fetch-mail
+
+## Folders and mailboxes
+set folder=imaps://example.com
+set spoolfile=+INBOX
+set record=+"Sent Items"
+set postponed=+Drafts
+
+mailboxes =Inbox
+mailboxes ="Sent Items"
+mailboxes =Drafts
+mailboxes ="Deleted Items"
+#mailboxes ~/Maildir/.oldies_ToMe
+# check for all subscribed IMAP folders
+# set imap_check_subscribed
+
+## SSL
+set ssl_starttls=yes
+
+## Composing
+set editor="emacs -nw"
+set signature="~/.mutt/.signature"
+set send_charset="us-ascii:iso-8859-1:utf-8"
+
+## If needed to add extra headers:
+#set edit_headers=yes
+## Remove all headers
+#unmy_hdr *
+## Using custom headers:
+#my_hdr <FIELD>: <VALUE>
+## Example:
+#my_hdr X-Operating-System: `uname -s`, kernel `uname -r`
+
+## Display
+set date_format="!%a, %b %d, %Y at %I:%M:%S%p %Z"
+set index_format="%3C | %Z | %[%b %d - %T] | %-20.20F (%-4.4c) %s"
+auto_view text/html text/calendar
+alternative_order text/plain text/html
+#auto_view text/html application/x-pgp-message
+mime_lookup application/octet-stream
+set pager_index_lines=8
+set sort=threads
+set sort_aux=last-date-received
+set strict_threads=yes
+set sort_browser=reverse-date
+
+## System
+set header_cache = "~/Mail/cache"
+set message_cachedir = "~/Mail/cache"
+
+## SMTP
+set smtp_url = "smtp://username@smpt.example.com/"
+
+## Alias
+#set alias_file= ~/.mutt/alias
+#set sort_alias= alias
+#set reverse_alias=yes
+#source $alias_file
+
+# Addressing
+set realname = "Name Last"
+set from = "username@example.com"
+#set query_command="abook --mutt-query '%s'"
+set query_command="~/.mutt/address_provider/ldap_query '%s'"
+
+# Check for mail every minute
+set timeout=120
+set mail_check=1 
+
+## Abook
+macro index,pager  a "<pipe-message>abook --add-email-quiet<return>" "Add this sender to Abook"
+bind editor        <Tab> complete-query
+#set query_command="abook --mutt-query '%s'" macro index,pager A "<pipe-message>abook --add-email-quiet<return>" "add the sender address to abook"
+
+## Macros
+macro generic,index,pager \ca "<shell-escape>abook<return>" "launch abook"
+macro index,pager A "<pipe-message>abook --add-email<return>" "add the sender address to abook"
+macro attach 'V' "<pipe-entry>cat >~/.mutt/cache/mail.html && firefox ~/.mutt/cache/mail.html && rm ~/.mutt/cache/mail.html<enter>"
+
+## Colors
+## Colours for items in the index
+color index brightcyan black ~N
+color index brightred black ~O
+color index brightyellow black ~F
+color index black green ~T
+color index brightred black ~D
+mono index bold ~N
+mono index bold ~F
+mono index bold ~T
+mono index bold ~D
+
+## Highlights inside the body of a message.
+## URLs
+color body brightgreen black "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+color body brightgreen black "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+mono body bold "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+mono body bold "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+
+## Email addresses.
+color body brightgreen black "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+
+## Header
+color header green black "^from:"
+color header green black "^to:"
+color header green black "^cc:"
+color header green black "^date:"
+color header yellow black "^newsgroups:"
+color header yellow black "^reply-to:"
+color header brightcyan black "^subject:"
+color header red black "^x-spam-rule:"
+color header green black "^x-mailer:"
+color header yellow black "^message-id:"
+color header yellow black "^Organization:"
+color header yellow black "^Organisation:"
+color header yellow black "^User-Agent:"
+color header yellow black "^message-id: .*pine"
+color header yellow black "^X-Fnord:"
+color header yellow black "^X-WebTV-Stationery:"
+color header red black "^x-spam-rule:"
+color header green black "^x-mailer:"
+color header yellow black "^message-id:"
+color header yellow black "^Organization:"
+color header yellow black "^Organisation:"
+color header yellow black "^User-Agent:"
+color header yellow black "^message-id: .*pine"
+color header yellow black "^X-Fnord:"
+color header yellow black "^X-WebTV-Stationery:"
+color header yellow black "^X-Message-Flag:"
+color header yellow black "^X-Spam-Status:"
+color header yellow black "^X-SpamProbe:"
+color header red black "^X-SpamProbe: SPAM"
+
+## Coloring quoted text - coloring the first 7 levels:
+color quoted cyan black
+color quoted1 yellow black
+color quoted2 red black
+color quoted3 green black
+color quoted4 cyan black
+color quoted5 yellow black
+color quoted6 red black
+color quoted7 green black
+
+## Default color definitions
+#color hdrdefault white green
+color signature brightmagenta black
+color indicator black cyan
+color attachment brightred black
+color error red black
+color message white black
+color search brightwhite magenta
+color status brightyellow blue
+color tree brightblue black
+color normal white black
+color tilde green black
+color bold brightyellow black
+#color underline magenta black
+color markers brightcyan black
+
+## GPG
+set pgp_use_gpg_agent = yes
+set pgp_sign_as=<ID>
+set pgp_replyencrypt=yes
+set pgp_replysign=yes
+set pgp_verify_sig=yes
+set pgp_timeout=3600
+
+send-hook "~f @example.com"  set pgp_sign_as=<ID>
+
+## key binds
+bind compose p  pgp-menu
+macro compose Y pfy "send mail without GPG"
+
+#set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
+#set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
+#set pgp_decrypt_command="gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
+#set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+#set pgp_clearsign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+#set pgp_encrypt_only_command="pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt --textmode --armor --always-trust --encrypt-to 0x9A1C603F -- -r %r -- %f"
+#set pgp_encrypt_sign_command="pgpewrap gpg --passphrase-fd 0 --batch --quiet --no-verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust --encrypt-to 0x9A1C603F -- -r %r -- %f"
+#set pgp_import_command="gpg --no-verbose --import -v %f"
+#set pgp_export_command="gpg --no-verbose --export --armor %r"
+#set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+#set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
+#set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+#set pgp_autosign=no
+#set pgp_good_sign="^gpg: Good signature from"
