@@ -1,16 +1,20 @@
-;; Highlight the current line
-(require 'highlight-current-line)
-(highlight-current-line-on t)
-
-;; Highlight Background color
-(highlight-current-line-set-bg-color "MediumPurple")
+;; Local Library Path
+(add-to-list 'load-path "~/.emacs.d/site-lisp/")
 
 ;; Highlight selected text
 (transient-mark-mode t)
 
-;; Ident set to 2
-(setq standard-indent 2)
-(setq tab-width 2)
+;; Highlight the current line
+(require 'hl-line)
+(hl-line-mode t)
+
+;; Highlight Background color
+;;(highlight-current-line-set-bg-color "MediumPurple")
+
+
+;; Ident set to 4
+(setq standard-indent 4)
+(setq tab-width 4)
 
 ;; Scroll line by line
 (setq scroll-step 1)
@@ -24,9 +28,12 @@
 ;; Show column-number in the mode line
 (column-number-mode 1)
 
+;; Parenthesis mode
+(show-paren-mode t)
+
 ;; Auto-pairing brackets/quotes by João Távora(v0.3)
-(require 'autopair)
-(autopair-global-mode 1)
+;(require 'autopair)
+;(autopair-global-mode 1)
 
 ;; Color Theme
 (require 'color-theme)
@@ -131,13 +138,13 @@ BEG and END (region to sort)."
 
 ;; Identi.ca mode
 ;; TODO move passwords to diff file.
-(require 'identica-mode)
-(setq identica-username "myusern")
-(setq identica-password "mypass")
+;(require 'identica-mode)
+;(setq identica-username "myusern")
+;(setq identica-password "mypass")
 
 ;; Identi.ca keybindings
-(global-set-key "\C-cis" 'identica-mode)
-(global-set-key "\C-cip" 'identica-update-status-interactive)
-(global-set-key "\C-cid" 'identica-direct-message-interactive)
+;(global-set-key "\C-cis" 'identica-mode)
+;(global-set-key "\C-cip" 'identica-update-status-interactive)
+;(global-set-key "\C-cid" 'identica-direct-message-interactive)
 
 ;; TODO Add autocomplete.
