@@ -26,6 +26,8 @@ def rminst(packagename):
     else:
         print('Package not installed, attempting to install it...')
         pkg.mark_install(from_user=False)
+        pkg.mark_auto(auto=True)
+
     try:
         ac.commit(install_progress=None)
     except SystemError:
